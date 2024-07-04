@@ -75,3 +75,26 @@ Para transformar o ponto em um ponto literal, podemos colocar uma barra de escap
 Agora, ele capturou o ponto e o hífen, mas a sequência apenas de dígitos não foi capturada. Para resolver isso, inserimos ao final da classe um ponto de interrogação (?). Esse ponto de interrogação também é um metacharacter que, neste caso, é um quantificador que torna essa classe opcional, ou seja, ela vai aparecer zero ou uma vez dentro dos padrões.
 
 Já que encontramos repetição deste padrão, podemos simplesmente copiar e inserir ao final da regex o mesmo padrão mais duas vezes. Resta apenas, por fim, uma sequência de dois dígitos. Para isso, vamos usar \d e inserir o quantificador.
+
+### Usando classes e busca de caracteres acentuados
+
+A negação de classes é um conceito útil para construção de Regex. As classes negadas permitem que você encontre caracteres que não correspondem a um conjunto específico. Em JavaScript, uma classe negada é definida usando [^...], onde ^ é colocado imediatamente após o colchete de abertura. Por exemplo, se você quiser encontrar todos os caracteres que não sejam letras maiúsculas em uma string, você pode usar a seguinte expressão regular:
+
+`const regex = /[^A-Z]/g;`
+
+Neste caso, [^A-Z] corresponde a qualquer caractere que não seja uma letra maiúscula de A a Z. Aqui estão alguns exemplos de como essa expressão regular funciona:
+
+"ABC123" corresponde a "123" porque os caracteres A, B e C são negados;
+"XYZ" não corresponde a nada porque todos os caracteres são letras maiúsculas, que são negadas pela expressão regular;
+“abc” corresponderá a abc porque as letras minúsculas não são negadas.
+O que acabamos de fazer na regex? Vamos fechar o terminal novamente para que possamos nos concentrar nela.
+
+Nós criamos um grupo de captura com os parênteses. Esses grupos são uma maneira de agrupar vários operadores, quantificadores, classes e metacaracteres das regex para utilizá-los dentro desse espaço. Eles agora são entendidos como uma unidade.
+
+Nossa classe de caracteres mais o quantificador mais o primeiro grupo são interpretados como uma unidade. E a nossa segunda unidade, nosso segundo grupo de captura, são o espaço vazio e a classe de caracteres acentuados sendo repetidos.
+
+Por sua vez, a repetição desse grupo é interpretada com o nosso quantificador + ao final dele. Assim, conseguimos resolver esse problema.
+
+Mas se digitarmos node .\busca_nome.js no terminal e analisarmos o resultado novamente, podemos ver que o "Data de nascimento" é retornado. E não é isso que queremos, queremos que comece a partir do primeiro nome.
+
+Vamos fechar o terminal para resolver este problema. Podemos inserir um acento circunflexo (^) à esquerda dos parênteses que iniciam o primeiro grupo, ou seja, no início da nossa regex. E, por fim, precisamos informar que essa nossa regex será interpretada como multilinha, ou seja, que há várias linhas nela. Para fazer isso, acrescentamos a flag m à esquerda do g.
